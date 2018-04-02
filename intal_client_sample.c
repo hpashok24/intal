@@ -19,8 +19,8 @@ Quotient: 2
 #include "intal.h"
 
 int main(int argc, char const *argv[]) {
-  char *str1 = "23";
-	char *str2 = "123";
+  char *str1 = "12";
+	char *str2 = "12";
 	void *intal1;
 	void *intal2;
 	void *sum;
@@ -37,16 +37,16 @@ int main(int argc, char const *argv[]) {
 
 	//intal1 = intal_increment(intal1); //5000
   //intal2 = intal_decrement(intal2); //2000
-/*
+
 	printf("Two intals after increment and decrement:\n");
 	printf("%s\n", intal2str(intal1)); //5000
   printf("%s\n", intal2str(intal2)); //2000
-*/
-	/*printf("Max of two intals: %s\n", //5000
+
+	printf("Max of two intals: %s\n", //5000
 		(intal_compare(intal1, intal2) > 0) ? intal2str(intal1) : intal2str(intal2));
 	sum = intal_add(intal1, intal2); //7000
 	printf("Sum: %s\n", intal2str(sum));
-*/
+
 	//diff = intal_diff(intal1, intal2); //3000
 //printf("Diff: %s\n", intal2str(diff));
 

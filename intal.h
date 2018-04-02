@@ -1,6 +1,6 @@
 // Library "intal" - Integer of arbitray length
 // intal is a nonnegative integer of arbitrary length.
-// The way the integer is stored is specific to the 
+// The way the integer is stored is specific to the
 //  implementation as long as the interface (this header file) is intact.
 
 // DO NOT modify this header file.
@@ -11,13 +11,13 @@
 //Input str has most significant digit at the head of the string.
 //"void *" abstracts out the format of intal.
 //The returned pointer points to the intal "object". Client need not know the format of the intal.
-//Even if you happen to use "char*" as the format of the intal, just like the input string, 
-// it's expected to a create a new copy because the intal object should be modifiable, but 
+//Even if you happen to use "char*" as the format of the intal, just like the input string,
+// it's expected to a create a new copy because the intal object should be modifiable, but
 // the input could be a constant literal (that's why parameter is "const").
 //The intal created here obviosuly needs some memory allocation, which would be freed in intal_destroy().
 //The memory allocated by this function is pointed by the pointer it returns. The client has no idea
 // what kind of object it is. It could be a pointer to char array, int array, long int array, double array, or
-// a struct array. There is no theoretical limit to the size of the integer, but memory limitations of the 
+// a struct array. There is no theoretical limit to the size of the integer, but memory limitations of the
 // process (Operating System). If the OS allows, your library should be able to hold the largest prime number
 // known, which is 23,249,425 digits long (as of Feb 2018).
 void* intal_create(const char* str);

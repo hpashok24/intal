@@ -24,7 +24,7 @@ void* intal_create(const char *str)
   string=(char *)malloc((length_new_string+1)*sizeof(char));
   if(length_new_string==1 && str[0]=='0')
   {
-    string[0]='0';
+    string[0]=str[length-1];
     string[1]='\0';
   }
   else
@@ -68,8 +68,8 @@ int intal_compare(void* intal1, void* intal2)
   else
   {
    //int flag=0;
-
-   for(i=0,j=0;i<string1_len,j<string2_len;i--,j--)
+    //printf("SDF\n");
+   for(i=0,j=0;i<string1_len,j<string2_len;i++,j++)
    {
      string1_digit=string1[i]-'0';
      string2_digit=string2[j]-'0';
@@ -79,12 +79,9 @@ int intal_compare(void* intal1, void* intal2)
        return 1;
       else
        return -1;
-      //flag=1;
     }
   }
-  //if(flag==0)
    return 0;
-
 }
 }
 
@@ -695,7 +692,7 @@ void* intal_multiply(void* intal1, void* intal2)
     zero_count++;
   }
   //printf("%s\n",add_char);
-  if(add_char[0]='0')
+  if(add_char[0]='0' && add_char[1]!='\0')
   {
     for(i=1;i<strlen(add_char)+1;i++)
      add_char[i-1]=add_char[i];
