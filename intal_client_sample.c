@@ -19,8 +19,8 @@ Quotient: 2
 #include "intal.h"
 
 int main(int argc, char const *argv[]) {
-  char *str1 = "12";
-	char *str2 = "12";
+  char *str1 = "9";
+	char *str2 = "100";
 	void *intal1;
 	void *intal2;
 	void *sum;

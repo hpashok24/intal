@@ -692,11 +692,11 @@ void* intal_multiply(void* intal1, void* intal2)
     zero_count++;
   }
   //printf("%s\n",add_char);
-  if(add_char[0]='0' && add_char[1]!='\0')
+
+  if(add_char[0]=='0' && strlen(add_char)!=1)
   {
     for(i=1;i<strlen(add_char)+1;i++)
      add_char[i-1]=add_char[i];
   }
   return (void *)add_char;
-
 }
