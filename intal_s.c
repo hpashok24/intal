@@ -384,223 +384,7 @@ void* intal_decrement(void* intal)
   }
   return (void *)string;
 }
-/*
-void* intal_diff(void* intal1, void* intal2)
-{
-  int digit1,digit2;
-  char *string1=(char *)intal1;
-  char *string2=(char *)intal2;
-  int string1_len=strlen(string1);
-  int string2_len=strlen(string2);
-  int borrow=1;
-  int diff_digit;
-  int i,j;
-  char *max=(intal_compare(intal1, intal2) > 0) ? intal2str(intal1) : intal2str(intal2);
-  char *diff=(char *)malloc((strlen(max)+1)*sizeof(char));
-  char *temp=(char *)malloc(strlen(max)*sizeof(char));
-  int max_len=strlen(max);
-  if(!strcmp(string1,max))
-  {
-    if(string1_len==string2_len)
-    {
-      digit1=string1[string1_len-1]-'0';
-      digit2=string2[string2_len-1]-'0';
-      if(digit1>=digit2)               //we can directly subtract if digit1>=digit2
-      {
-        borrow=0;
-        diff_digit=digit1-digit2;
-        diff[max_len-1]=diff_digit+'0';
-      }
-      else
-      {
-        borrow=1;                    //if above is not the case
-        digit1=digit1+10;            //we need to take borrow from the next digit
-        diff_digit=digit1-digit2;    //and then subtract
-        diff[max_len-1]=diff_digit+'0';
-      }
-      for(i=string1_len-2;i>0;i--)
-      {
-        digit1=string1[i]-'0';        //now applying the same logic for form digit[1 to n-2]
-        digit2=string2[i]-'0';
-        if(borrow==1)                //checking if borrow was taken in the prevoious step
-        {
-          if((digit1-1)>=digit2)
-          {
-            borrow=0;
-            diff_digit=digit1-1-digit2;
-            diff[i]=diff_digit+'0';
-          }
-          else
-          {
-            borrow=1;
-            digit1=digit1-1+10;
-            diff_digit=digit1-digit2;
-            diff[i]=diff_digit+'0';
-          }
-        }
-        else
-        {
-          if(digit1>=digit2)
-          {
-            borrow=0;
-            diff_digit=digit1-digit2;
-            diff[i]=diff_digit+'0';
-          }
-          else
-          {
-            borrow=1;
-            digit1=digit1+10;
-            diff_digit=digit1-digit2;
-            diff[i]=diff_digit+'0';
-          }
-        }
 
-      }
-      digit1=string1[0]-'0';    //handling last bit
-      digit2=string2[0]-'0';
-      if(borrow==1)
-      {
-        diff_digit=digit1-1-digit2;
-        if(diff_digit!=0)
-        diff[0]=diff_digit+'0';
-        else
-        {
-          diff[0]='0';
-          //printf("Inside else");
-          for(i=0;i<strlen(string1);i++)
-           temp[i]=diff[i];
-          diff=(char *)malloc(strlen(string1)*sizeof(char));
-          j=0;
-          for(i=1;i<strlen(string1);i++)
-           diff[j++]=temp[i];
-          diff[j]='\0';
-        }
-      }
-      else
-      {
-        diff_digit=digit1-digit2;
-        if(diff_digit!=0)
-        diff[0]=diff_digit+'0';
-        else
-        {
-            diff[0]='0';
-            for(i=0;i<strlen(string1);i++)
-             temp[i]=diff[i];
-            diff=(char *)malloc(strlen(string1)*sizeof(char));
-            j=0;
-            for(i=1;i<strlen(string1);i++)
-             diff[j++]=temp[i];
-            diff[j]='\0';
-        }
-      }
-
-    }
-    else
-    {
-
-        digit1=string1[string1_len-1]-'0';
-        digit2=string2[string2_len-1]-'0';
-        if(digit2>=digit1)               //we can directly subtract if digit1>=digit2
-        {
-          borrow=0;
-          diff_digit=digit2-digit1;
-          diff[max_len-1]=diff_digit+'0';
-        }
-        else
-        {
-          borrow=1;                    //if above is not the case
-          digit2=digit2+10;            //we need to take borrow from the next digit
-          diff_digit=digit2-digit1;    //and then subtract
-          diff[max_len-1]=diff_digit+'0';
-        }
-        for(i=string1_len-2;i>0;i--)
-        {
-          digit1=string1[i]-'0';        //now applying the same logic for form digit[1 to n-2]
-          digit2=string2[i]-'0';
-          if(borrow==1)                //checking if borrow was taken in the prevoious step
-          {
-            if((digit2-1)>=digit1)
-            {
-              borrow=0;
-              diff_digit=digit2-1-digit1;
-              diff[i]=diff_digit+'0';
-            }
-            else
-            {
-              borrow=1;
-              digit2=digit2-1+10;
-              diff_digit=digit2-digit1;
-              diff[i]=diff_digit+'0';
-            }
-          }
-          else
-          {
-            if(digit2>=digit1)
-            {
-              borrow=0;
-              diff_digit=digit2-digit1;
-              diff[i]=diff_digit+'0';
-            }
-            else
-            {
-              borrow=1;
-              digit2=digit2+10;
-              diff_digit=digit2-digit1;
-              diff[i]=diff_digit+'0';
-            }
-          }
-
-        }
-        digit1=string1[0]-'0';    //handling last bit
-        digit2=string2[0]-'0';
-        if(borrow==1)
-        {
-          diff_digit=digit2-1-digit1;
-          if(diff_digit!=0)
-          {
-
-            diff[0]=diff_digit+'0';
-            diff[strlen(max)]='\0';
-          }
-          else
-          {
-            diff[0]='0';
-            for(i=0;i<strlen(string1);i++)
-             temp[i]=diff[i];
-            diff=(char *)malloc(string1_len*sizeof(char));
-            j=0;
-            for(i=1;i<string1_len;i++)
-             diff[j++]=temp[i];
-            diff[j]='\0';
-          }
-        }
-        else
-        {
-          diff_digit=digit2-digit1;
-          if(diff_digit!=0)
-          {
-          diff[0]=diff_digit+'0';
-          diff[strlen(max)]='\0';
-          }
-          else
-          {
-              diff[0]='0';
-              for(i=0;i<strlen(string1);i++)
-               temp[i]=diff[i];
-              diff=(char *)malloc(strlen(string1)*sizeof(char));
-              j=0;
-              for(i=1;i<strlen(string1);i++)
-               diff[j++]=temp[i];
-              diff[j]='\0';
-          }
-        }
-
-    }
-  }
-
-  return (void *)diff;
-}
-*/
 void* intal_multiply(void* intal1, void* intal2)
 {
   char *string1=(char *)intal1;
@@ -699,4 +483,77 @@ void* intal_multiply(void* intal1, void* intal2)
      add_char[i-1]=add_char[i];
   }
   return (void *)add_char;
+}
+void* intal_diff(void *intal1,void *intal2)
+{
+  char *max_string;
+  char *string1=(char *)intal1;
+  char *string2=(char *)intal2;
+  char *temp;
+  max_string=(intal_compare(intal1, intal2) > 0) ? intal2str(intal1) : intal2str(intal2);
+  if(strcmp(max_string,string1))
+  {
+    temp=string1;
+    string1=string2;
+    string2=temp;
+  }
+  char *string2_new;
+  int i,j;
+  j=strlen(string2)-1;
+  if(strlen(string1)!=strlen(string2))
+  {
+    string2_new=(char *)malloc((strlen(string1)+1)*sizeof(char));
+    string2_new[strlen(string1)+1]='\0';
+    for(i=strlen(string1)-1;i>=strlen(string1)-strlen(string2);i--)
+    {
+      string2_new[i]=string2[j];
+      j--;
+    }
+    for(;i>=0;i--)
+    {
+      string2_new[i]='0';
+    }
+  }
+  else
+   string2_new=string2;
+  string2=string2_new;
+  //printf("%s\n",string2);
+  int digit1,digit2,carry;
+  char *diff=(char *)malloc(sizeof((string1)+1)*sizeof(char));
+  diff[strlen(string1)+1]='\0';
+  int borrow=0;
+  for(i=strlen(string1)-1;i>=0;i--)
+  {
+    digit1=string1[i]-'0';
+    digit2=string2[i]-'0';
+    if(digit1>=digit2)
+    {
+      digit1=digit1-borrow;
+      if(digit1>=digit2)
+      {
+       diff[i]=(digit1-digit2)+'0';
+       borrow=0;
+      }
+      else
+      {
+        digit1=digit1+borrow;
+        digit1=digit1+10-borrow;
+        diff[i]=(digit1-digit2)+'0';
+        borrow=1;
+      }
+   }
+    else
+    {
+      digit1=digit1+10-borrow;
+      diff[i]=(digit1-digit2)+'0';
+      borrow=1;
+    }
+  }
+  int len=strlen(diff);
+  if(diff[0]=='0' && len!=1)
+  {
+    for(i=1;i<len+1;i++)
+     diff[i-1]=diff[i];
+  }
+  return (void *)diff;
 }
