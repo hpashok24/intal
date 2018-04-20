@@ -385,105 +385,6 @@ void* intal_decrement(void* intal)
   return (void *)string;
 }
 
-void* intal_multiply(void* intal1, void* intal2)
-{
-  char *string1=(char *)intal1;
-  char *string2=(char *)intal2;
-  int string1_len=strlen(string1);
-  int string2_len=strlen(string2);
-  int zero_count=1;
-  char temp_char;
-  int carry=0;
-  int digit1,digit2,temp_digit,mul;
-  int i,j,k;
-  k=string1_len;
-  void *add;
-  char *add_char;
-  char *temp1=(char *)malloc(sizeof(char)*(string1_len+1));
-  digit1=string2[string2_len-1]-'0';
-  for(i=string1_len-1;i>0;i--)
-  {
-    digit2=string1[i]-'0';
-    mul=(digit1*digit2)+carry;
-    temp_digit=mul%10;
-    carry=mul/10;
-    temp1[k--]=temp_digit+'0';
-  }
-  //digit1=string2[i]-'0';
-  digit2=string1[0]-'0';
-  mul=(digit1*digit2)+carry;
-  if(mul<=9)
-  {
-    temp1[1]=mul+'0';
-    temp1[0]='0';
-  }
-  else
-  {
-    temp1[1]=(mul%10)+'0';
-    temp1[0]=(mul/10)+'0';
-  }
-  add_char=temp1;
-  //printf("%s\n",temp1);
-  int temp;
-  int z;
-  int flag=0;
-  char *temp2;
-
-  for(i=string2_len-2;i>=0;i--)
-  {
-    carry=0;
-    k=string1_len+zero_count;
-    temp2=(char *)malloc(sizeof(char)*(string1_len+1+zero_count));
-    temp=zero_count;
-    for(z=temp;z>0;z--)
-    {
-      temp2[k--]='0';
-    }
-    for(j=string1_len-1;j>0;j--)
-    {
-      digit1=string2[i]-'0';
-      digit2=string1[j]-'0';
-      mul=(digit1*digit2)+carry;
-      temp_digit=mul%10;
-      carry=mul/10;
-      temp2[k--]=temp_digit+'0';
-    }
-    digit1=string2[i]-'0';
-    digit2=string1[j]-'0';
-    mul=(digit1*digit2)+carry;
-    if(mul<=9)
-    {
-      temp2[1]=mul+'0';
-      temp2[0]='0';
-    }
-    else
-    {
-      temp2[1]=(mul%10)+'0';
-      temp2[0]=(mul/10)+'0';
-    }
-    //printf("%s\n",temp2);
-  if(flag==0)
-  {
-      add=intal_add((void *)temp1,(void *)temp2);
-      add_char=intal2str(add);
-      flag=1;
-    }
-    else
-    {
-      add=intal_add((void *)add_char,(void *)temp2);
-      add_char=intal2str(add);
-    }
-    zero_count++;
-  }
-  //printf("%s\n",add_char);
-
-  if(add_char[0]=='0' && strlen(add_char)!=1)
-  {
-    for(i=1;i<strlen(add_char)+1;i++)
-     add_char[i-1]=add_char[i];
-  }
-  return (void *)add_char;
-}
 void* intal_diff(void *intal1,void *intal2)
 {
   char *max_string;
@@ -555,5 +456,123 @@ void* intal_diff(void *intal1,void *intal2)
     for(i=1;i<len+1;i++)
      diff[i-1]=diff[i];
   }
+  printf("diff finished");
   return (void *)diff;
+}
+
+void* intal_multiply(void* intal1, void* intal2)
+{
+  char *string1=(char *)intal1;
+  char *string2=(char *)intal2;
+  int string1_len=strlen(string1);
+  //printf("%d\n",string1_len);
+  int string2_len=strlen(string2);
+  int i;
+  int flag=0;
+  char *temp=(char *)malloc(sizeof(char)*(string1_len+2));
+  for(i=0;i<=string1_len+1;i++)
+   temp[i]='0';
+  temp[string1_len+1]='\0';
+  int count=0;
+  int j;
+  int digit1,digit2;
+  int carry=0;
+  int temp_res;
+  int k;
+  //int flag=0;
+    carry=0;
+    digit2=string2[string2_len-1]-'0';
+    k=string1_len;
+    for(j=string1_len-1;j>0;j--)
+    {
+      digit1=string1[j]-'0';
+      temp_res=digit1*digit2+carry;
+      if(temp_res>9)
+      {
+        carry=temp_res/10;
+        temp_res=temp_res%10;
+      }
+      else
+      {
+        carry=0;
+      }
+      temp[k--]=temp_res+'0';
+    }
+    digit1=string1[0]-'0';
+    temp_res=digit1*digit2+carry;
+    if(temp_res>9)
+    {
+      carry=temp_res/10;
+      temp_res=temp_res%10;
+      temp[k--]=temp_res+'0';
+      temp[k--]=carry+'0';
+    }
+    else
+    {
+      temp[k--]=temp_res+'0';
+    }
+    char *temp2;
+    count=1;
+    char *add_char;
+    add_char=temp;
+    //printf("%c\n",string2[string2_len-2]);
+for(i=string2_len-2;i>=0;i--)
+{
+  digit2=string2[i]-'0';
+  carry=0;
+  temp2=(char *)malloc(sizeof(char)*(string1_len+2+count));
+  for(j=0;j<=string1_len+1+count;j++)
+   temp2[j]='0';
+  temp2[string1_len+1+count]='\0';
+  k=string1_len+count;
+  j=count;
+  for(;j>0;j--)
+   temp2[k--]='0';
+  for(j=string1_len-1;j>0;j--)
+  {
+    digit1=string1[j]-'0';
+    temp_res=digit1*digit2+carry;
+    if(temp_res>9)
+    {
+      carry=temp_res/10;
+      temp_res=temp_res%10;
+    }
+    else
+    {
+      carry=0;
+    }
+    temp2[k--]=temp_res+'0';
+  }
+  digit1=string1[0]-'0';
+  temp_res=digit1*digit2+carry;
+  if(temp_res>9)
+  {
+    carry=temp_res/10;
+    temp_res=temp_res%10;
+    temp2[k--]=temp_res+'0';
+    temp2[k--]=carry+'0';
+  }
+  else
+  {
+    temp2[k--]=temp_res+'0';
+  }
+  count++;
+  if(flag==0)
+  {
+    add_char=(char *)intal_add((void *)temp,(void *)temp2);
+    flag=1;
+  }
+  else
+  {
+    add_char=(char *)intal_add((void *)add_char,(void *)temp2);
+  }
+}
+
+if(add_char[0]=='0' && strlen(add_char)!=1)
+{
+  for(i=1;i<strlen(add_char)+1;i++)
+   add_char[i-1]=add_char[i];
+}
+printf("%s\n",add_char);
+return (void *)temp;
 }
